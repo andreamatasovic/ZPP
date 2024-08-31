@@ -15,19 +15,20 @@ from tkinter import ttk, filedialog, messagebox
 from json import JSONDecodeError
 from random import randint, shuffle
 ```
-* **Tkinter** i **ttk** se koriste se za izradu grafičkog korisničkog sučelja (GUI). Omogućuju prikaz prozora aplikacije, kontrole kao što su gumbi i izbornici na kojima korisnici mogu vizualno pratiti premještanje kontejnera.
+* **Tkinter** i **ttk** se koriste se za izradu grafičkog korisničkog sučelja (GUI). Omogućuju prikaz prozora aplikacije te kontrole kao što su gumbi i izbornici na kojima korisnici mogu vizualno pratiti premještanje kontejnera.
 * **Filedialog** omogućuje učitavanje podataka o luci i kontejnerima iz JSON datoteka.
 * **Messagebox** prikazuje obavijesti o uspjehu ili greškama.
 * **JSONDecodeError** omogućuje prepoznavanje i upravljanje greškama pri parsiranju JSON datoteka.
 * **Randint i shuffle** su funkcije koje se koriste za generiranje nasumičnih brojeva i nasumično miješanje elemenata, što je korisno za simuliranje rasporeda kontejnera u luci.
 
+## Rad aplikacije
+Nakon što korisnik odabere način dohvaćanja kontejnera (automatski prema pravilima ili ručno), može odabrati broj redaka i stupaca za simuliranu luku. Također,  može učitati prethodno spremljene podatke iz nekoliko JSON datoteka. Kada se simulacija pokrene pritiskom na gumb "Start", kontejneri se dohvaćaju redom, počevši od 1., zatim 2. i tako dalje.
 
+### Automatsko dohvaćanje uz prioritetna pravila
+Uz prethodno opisane korake, korisnik odabire jedno od 3 implementirana pravila. Nakon toga slijedi automatska vizualizacija procesa za dohvaćanje kontejnera.
 
+#### *The Lowest Point* (TLP)
 
-
-
-
-
-
-## Pokretanje
+## Upute za korištenje
+### Pokretanje
 Za pokretanje projekta, potrebno je jednostavno otvoriti *CRP.exe* datoteku. Nakon toga, projekt će se automatski pokrenuti i omogućiti korisniku da započne simulaciju procesa utovara kontejnera.
