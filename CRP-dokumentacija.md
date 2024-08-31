@@ -80,6 +80,5 @@ def RIL(stacks):
 
 ### Ručno dohvaćanje
 Ručno dohvaćanje kontejnera u aplikaciji odvija se kroz nekoliko jasno definiranih koraka. Kada korisnik klikne na kontejner u prozoru, aplikacija identificira koji kontejner je odabran, pod uvjetom da se nalazi na vrhu svog stoga. Taj kontejner se označava za premještanje. Dok korisnik povlači kontejner, aplikacija prati njegovo kretanje u prozoru i prilagođava položaj kontejnera prema tome. Kada korisnik ispusti kontejner, aplikacija utvrđuje na koji stog je kontejner premješten, ažurira raspored stogova i bilježi broj izvršenih premještaja. Ako se kontejneri nalaze na vrhu i trebaju biti uklonjeni, aplikacija ih odgovarajuće briše.
-# Upute za korištenje
-### Pokretanje
+# Pokretanje
 Za pokretanje projekta, potrebno je jednostavno otvoriti *CRP.exe* datoteku. Nakon toga, projekt će se automatski pokrenuti i omogućiti korisniku da započne simulaciju procesa utovara kontejnera.
