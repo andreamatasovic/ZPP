@@ -25,10 +25,61 @@ from random import randint, shuffle
 Nakon što korisnik odabere način dohvaćanja kontejnera (automatski prema pravilima ili ručno), može odabrati broj redaka i stupaca za simuliranu luku. Također,  može učitati prethodno spremljene podatke iz nekoliko JSON datoteka. Kada se simulacija pokrene pritiskom na gumb "Start", kontejneri se dohvaćaju redom, počevši od 1., zatim 2. i tako dalje.
 
 ### Automatsko dohvaćanje uz prioritetna pravila
-Uz prethodno opisane korake, korisnik odabire jedno od 3 implementirana pravila. Nakon toga slijedi automatska vizualizacija procesa za dohvaćanje kontejnera.
+Uz prethodno opisane korake, korisnik odabire jedno od 3 implementirana pravila. Aplikacija automatski premješta kontejnere prema odabranom pravilu, ažurira prikaz na platnu i prikazuje broj premještaja. Cijeli proces premještanja kontinuirano se opisuje u statusnoj traci, pružajući korisniku ažurirane informacije o trenutnom stanju.
 
 #### *The Lowest Point* (TLP)
+Pravilo TLP za rješavanje problema premještanja kontejnera funkcionira tako što prvo analizira sve stogove u skladištu i bilježi broj kontejnera u svakom stogu. Zatim, TLP odabire stog s najmanjim brojem kontejnera kao odredište za premještanje novih kontejnera. Ako postoji više stogova s istim najmanjim brojem kontejnera, odredište se nasumično bira među tim stogovima. Na kraju, broj kontejnera u oba stoga se ažurira i proces se može ponoviti ako je potrebno.
+```python
+def TLP(stacks):
+    selected_containers = []
+    min_position = float('inf')
 
-## Upute za korištenje
+    for stack in stacks:
+        if stack:
+            top_container = stack[-1]
+            if top_container.position < min_position:
+                min_position = top_container.position
+                selected_containers = [top_container]
+            elif top_container.position == min_position:
+                selected_containers.append(top_container)
+
+    if len(selected_containers) > 1:
+        selected_container = random.choice(selected_containers)
+    
+    return selected_container
+```
+#### *Reshuffle Index* (RI)
+Ključna ideja je izračunati *reshuffle indeks* za svaki stupac, što je broj kontejnera u tom stupcu s višim prioritetom od blokirajućeg kontejnera (onog koji trenutno blokira pristup željenom). Algoritam zatim odabire stupac s najnižim reshuffle indeksom za premještanje blokirajućeg kontejnera, s ciljem smanjenja budućih premještanja. 
+```python
+def RI(stacks):
+    selected_container = None
+    max_reshuffle_index = float('-inf')
+    for stack in stacks:
+        if stack:
+            top_container = stack[-1]
+            if top_container.reshuffle_index > max_reshuffle_index:
+                max_reshuffle_index = top_container.reshuffle_index
+                selected_container = top_container
+    return selected_container
+```
+#### *Reshuffle Index with Look-ahead* (RIL)
+Reshuffle Index with Look-ahead (RIL) je proširenje osnovne Reshuffle Index heuristike koja uključuje dodatni korak *gledanja unaprijed* (look-ahead) kako bi se unaprijedilo donošenje odluka pri premještanju kontejnera. Dok standardna Reshuffle Index heuristika odabire stupac za premještanje blokirajućeg kontejnera na temelju trenutnog broja kontejnera s višim prioritetom, RIL pokušava predvidjeti buduće premještaje i izbjegavati poteze koji bi mogli uzrokovati dodatna premještanja kasnije.
+RIL uzima u obzir ne samo trenutni reshuffle indeks, već i potencijalne posljedice premještanja na buduće poteze, što pomaže u daljnjem smanjenju ukupnog broja premještanja u cijelom procesu.
+```python
+def RIL(stacks):
+    selected_container = None
+    min_lookahead_cost = float('inf')
+    for stack in stacks:
+        if stack:
+            top_container = stack[-1]
+            if top_container.lookahead_cost < min_lookahead_cost:
+                min_lookahead_cost = top_container.lookahead_cost
+                selected_container = top_container
+    return selected_container
+```
+
+### Ručno dohvaćanje
+Ručno dohvaćanje kontejnera u aplikaciji odvija se kroz nekoliko jasno definiranih koraka. Kada korisnik klikne na kontejner u prozoru, aplikacija identificira koji kontejner je odabran, pod uvjetom da se nalazi na vrhu svog stoga. Taj kontejner se označava za premještanje. Dok korisnik povlači kontejner, aplikacija prati njegovo kretanje u prozoru i prilagođava položaj kontejnera prema tome. Kada korisnik ispusti kontejner, aplikacija utvrđuje na koji stog je kontejner premješten, ažurira raspored stogova i bilježi broj izvršenih premještaja. Ako se kontejneri nalaze na vrhu i trebaju biti uklonjeni, aplikacija ih odgovarajuće briše.
+# Upute za korištenje
 ### Pokretanje
 Za pokretanje projekta, potrebno je jednostavno otvoriti *CRP.exe* datoteku. Nakon toga, projekt će se automatski pokrenuti i omogućiti korisniku da započne simulaciju procesa utovara kontejnera.
