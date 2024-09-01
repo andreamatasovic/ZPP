@@ -5,7 +5,18 @@ Mentor: izv. prof. dr. sc. Domagoj Matijević <br/>
 Komentor: dr. sc. Mateja Đumić <br/>
 
 ## Uvod
-Značajan dio robe u međunarodnoj trgovini otprema se u kontejnerima. Tijekom čekanja na utovar, kontejneri se u luci nalaze složeni u stupcima jedan na drugom. Kako bi se pri utovaru došli do kontejnera u predodređenom redoslijedu, suočavamo se s NP-teškim problemom. U ovom radu implementirana su tri pravila za rješavanje tog problema: pravilo najniže pozicije (*The Lowest Point* - TLP), indeks preraspodjele (*Reshuffle Index* - RI) i indeks preraspodjele s predviđanjem (*Reshuffle Index with Look-ahead* - RIL). Projekt koristi navedena pravila za simulaciju procesa utovara i omogućuje korisniku ručno dohvaćanje kontejnera, uz praćenje broja koraka. <br/>
+Značajan dio robe u međunarodnoj trgovini otprema se u kontejnerima. Stoga su morske
+luke od velike važnosti za prijevoz robe. Kontejneri prevezeni u kontejnerski terminal
+pohranjuju se u skladištima kontejnera jedno uz drugo i jedno na drugo, formirajući redove.
+Ako se kontejner koji nije na vrhu reda mora dohvatiti, kontejneri koji se nalaze iznad
+potrebnog kontejnera moraju se premjestiti prije nego što se potrebni kontejner može
+dohvatiti. Ova dodatna premještanja kontejnera usporavaju cijeli proces dohvaćanja.
+Problem premještanja kontejnera predstavlja optimizacijski problem koji uključuje
+pronalaženje optimalnog slijeda operacija za dohvat kontejnera iz skladišta u zadanom
+redoslijedu, minimizirajući dodatna premještanja blokirajućih kontejnera.
+U ovom radu implementirana je simulacija koja vizualizira optimalno dohvaćanje kontejnera
+koristeći pravila prioritetnih redova. Implementirana su 3 pravila: pravilo najniže pozicije (*The Lowest Point* - TLP), indeks preraspodjele (*Reshuffle Index* - RI) i indeks preraspodjele s predviđanjem (*Reshuffle Index with Look-ahead* - RIL). Osim vizualnog prikaza primjene ovih pravila, korisnicima je omogućeno i ručno dohvaćanje kontejnera, uz praćenje broja
+potrebnih koraka. <br/>
 Projekt je implementiran u Pythonu, a koristi grafičko sučelje koje omogućava korisnicima interakciju s aplikacijom.
 
 ## Biblioteke
@@ -22,6 +33,8 @@ from random import randint, shuffle
 * **Randint i shuffle** su funkcije koje se koriste za generiranje nasumičnih brojeva i nasumično miješanje elemenata, što je korisno za simuliranje rasporeda kontejnera u luci.
 
 ## Rad aplikacije
+
+
 Nakon što korisnik odabere način dohvaćanja kontejnera (automatski prema pravilima ili ručno), može odabrati broj redaka i stupaca za simuliranu luku. Također,  može učitati prethodno spremljene podatke iz nekoliko JSON datoteka. Kada se simulacija pokrene pritiskom na gumb "Start", kontejneri se dohvaćaju redom, počevši od 1., zatim 2. i tako dalje.
 
 ### Automatsko dohvaćanje uz prioritetna pravila
