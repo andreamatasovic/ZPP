@@ -1,11 +1,10 @@
 # Dokumentacija završnog praktičnog projekta
 # Rješavanje problema relokacije kontejnera pomoću prioritetnih pravila i vizualizacija postupaka
 Studentice: Iva Butumović, Danijela Valjak, Andrea Matasović <br/>
-Mentor: izv. prof. dr. sc. Domagoj Matijević <br/>
-Komentor: dr. sc. Mateja Đumić <br/>
+Mentor: dr. sc. Mateja Đumić <br/>
 
 ## Uvod
-Značajan dio robe u međunarodnoj trgovini otprema se u kontejnerima, stupca su luke od velike važnosti za prijevoz robe. Kontejneri prevezeni u kontejnerski terminal pohranjuju se u skladištima tako da se postavljaju jedan uz drugi i jedan na drugi, formirajući redove.
+Značajan dio robe u međunarodnoj trgovini otprema se u kontejnerima, stuoga su luke od velike važnosti za prijevoz robe. Kontejneri prevezeni u kontejnerski terminal pohranjuju se u skladištima tako da se postavljaju jedan uz drugi i jedan na drugi, formirajući redove.
 Ako se kontejner koji nije na vrhu reda mora dohvatiti, kontejneri koji se nalaze iznad onog koji se treba dohvatiti moraju se premjestiti prije nego što se on može dohvatiti. Ova dodatna premještanja kontejnera usporavaju cijeli proces dohvaćanja.
 Problem premještanja kontejnera predstavlja optimizacijski problem koji uključuje
 pronalaženje optimalnog slijeda operacija za njihov dohvat iz skladišta u zadanom
@@ -54,7 +53,8 @@ Pritiskom na gumb _Start_, aplikacija automatski premješta kontejnere prema oda
 ![alt text](https://github.com/andreamatasovic/ZPP/blob/main/img/5.png) <br/>
 
 #### *The Lowest Point* (TLP)
-Pravilo TLP za rješavanje problema premještanja kontejnera funkcionira tako što prvo analizira sve stupce u skladištu i bilježi broj kontejnera u svakom stupcu. Zatim, TLP odabire stupac s najmanjim brojem kontejnera kao odredište za premještanje novih kontejnera. Ako postoji više stupaca s istim najmanjim brojem kontejnera, odredište se nasumično bira na koji od tih stupaca će biti premješten kontejner. Na kraju, broj kontejnera u oba stupca se ažurira i proces se može ponoviti ako je potrebno.
+Pravilo TLP za rješavanje problema premještanja kontejnera funkcionira tako što prvo analizira sve stupce u skladištu i bilježi broj kontejnera u svakom stupcu. Zatim, TLP odabire stupac s najmanjim brojem kontejnera kao odredište za premještanje novih kontejnera. Ako postoji više stupaca s istim najmanjim brojem kontejnera, nsasumično se bira na koji od tih stupaca će biti premješten kontejner. Na kraju, broj kontejnera u oba stupca se ažurira i proces se može ponoviti ako je potrebno.
+
 ```python
 def TLP(stacks):
     selected_containers = []
@@ -89,7 +89,7 @@ def RI(stacks):
     return selected_container
 ```
 #### *Reshuffle Index with Look-Ahead* (RIL)
-_Reshuffle Index with Look-Ahead_ (RIL) je proširenje osnovne _Reshuffle Index_ prioritetnog pravila koja uključuje dodatni korak *gledanja unaprijed* (look-ahead) kako bi se unaprijedilo donošenje odluka pri premještanju kontejnera. Dok standardna _Reshuffle Index_ heuristika odabire stupac za premještanje blokirajućeg kontejnera na temelju trenutnog broja kontejnera s višim prioritetom, RIL pokušava predvidjeti buduće premještaje i izbjegavati poteze koji bi kasnije mogli uzrokovati dodatna premještanja.
+_Reshuffle Index with Look-Ahead_ (RIL) je proširenje osnovne _Reshuffle Index_ prioritetnog pravila koja uključuje dodatni korak *gledanja unaprijed* (look-ahead) kako bi se unaprijedilo donošenje odluka pri premještanju kontejnera. Dok standardno  _Reshuffle Index_ heuristika odabire stupac za premještanje blokirajućeg kontejnera na temelju trenutnog broja kontejnera s višim prioritetom, RIL pokušava predvidjeti buduće premještaje i izbjegavati poteze koji bi kasnije mogli uzrokovati dodatna premještanja.
 RIL uzima u obzir ne samo trenutni _reshuffle indeks_, već i potencijalne posljedice premještanja na buduće poteze, što pomaže u daljnjem smanjenju ukupnog broja premještanja u cijelom procesu.
 ```python
 def RIL(stacks):
