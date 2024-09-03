@@ -86,7 +86,13 @@ Algoritam koristi ovaj indeks kako bi odabrao stupac s najnižim _reshuffle inde
 ```python
 def RI(stacks):
     selected_container = None
-@@ -89,8 +111,8 @@ def RI(stacks):
+    max_reshuffle_index = float('-inf')
+    for stack in stacks:
+        if stack:
+            top_container = stack[-1]
+            if top_container.reshuffle_index > max_reshuffle_index:
+                max_reshuffle_index = top_container.reshuffle_index
+                selected_container = top_container
     return selected_container
 ```
 #### *Reshuffle Index with Look-Ahead* (RIL)
@@ -97,3 +103,12 @@ Predviđanje posljedica budućih premještanja postiže tako da prilikom izraču
 ```python
 def RIL(stacks):
     selected_container = None
+    min_lookahead_cost = float('inf')
+    for stack in stacks:
+        if stack:
+            top_container = stack[-1]
+            if top_container.lookahead_cost < min_lookahead_cost:
+                min_lookahead_cost = top_container.lookahead_cost
+                selected_container = top_container
+    return selected_container
+```
