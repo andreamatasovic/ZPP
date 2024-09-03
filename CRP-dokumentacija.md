@@ -3,7 +3,7 @@
 Studentice: Iva Butumović, Danijela Valjak, Andrea Matasović <br/>
 Mentor: dr. sc. Mateja Đumić <br/>
 ## Uvod
-Značajan dio robe u međunarodnoj trgovini otprema se u kontejnerima, stuoga su luke od velike važnosti za prijevoz robe. Kontejneri prevezeni u kontejnerski terminal pohranjuju se u skladištima tako da se postavljaju jedan uz drugi i jedan na drugi, formirajući redove.
+Značajan dio robe u međunarodnoj trgovini otprema se u kontejnerima, stoga su luke od velike važnosti za prijevoz robe. Kontejneri prevezeni u kontejnerski terminal pohranjuju se u skladištima tako da se postavljaju jedan uz drugi i jedan na drugi, formirajući redove.
 Ako se kontejner koji nije na vrhu reda mora dohvatiti, kontejneri koji se nalaze iznad onog koji se treba dohvatiti moraju se premjestiti prije nego što se on može dohvatiti. Ova dodatna premještanja kontejnera usporavaju cijeli proces dohvaćanja.
 Problem premještanja kontejnera predstavlja optimizacijski problem koji uključuje
 pronalaženje optimalnog slijeda operacija za njihov dohvat iz skladišta u zadanom
