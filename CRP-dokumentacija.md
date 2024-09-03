@@ -25,7 +25,7 @@ from random import randint, shuffle
 * **JSONDecodeError** omogućuje prepoznavanje i upravljanje greškama pri parsiranju JSON datoteka.
 * **Randint i shuffle** su funkcije koje se koriste za generiranje nasumičnih brojeva i nasumično miješanje elemenata, što je korisno za simuliranje rasporeda kontejnera u luci.
 ## Rad aplikacije
-Pokretanjem datoteke CRP.exe otvara se sučelje koje korisniku omogućuje odabir između ručnog dohvaćanja kontejnera (Manually Solve CRP) ili automatskog dohvaćanja (Automatically Solve CRP) korištenjem jednog od dostupnih pravila.  <br/>
+Pokretanjem datoteke main.exe otvara se sučelje koje korisniku omogućuje odabir između ručnog dohvaćanja kontejnera (Manually Solve CRP) ili automatskog dohvaćanja (Automatically Solve CRP) korištenjem jednog od dostupnih pravila.  <br/>
 ![alt text](https://github.com/andreamatasovic/ZPP/blob/main/img/crp.png) <br/>
 ### Ručno dohvaćanje
 Odabirom ručnog dohvaćanja otvara se sučelje u kojemu korisnik treba odabrati broj redaka (*tiers*) i stupaca (*stacks*) koje će imati generirana instanca problema. Pritiskom na gumb *Start*, program generira odgovarajući broj kontejnera, pri čemu su im nasumično dodijeljeni brojevi koji označavaju prioritet, odnosno redoslijed u kojem ih je potrebno dohvatiti.
