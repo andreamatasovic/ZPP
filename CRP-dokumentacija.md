@@ -75,7 +75,29 @@ def TLP(stacks):
     return selected_container
 ```
 #### *Reshuffle Index* (RI)
-Ključna ideja je izračunati *reshuffle indeks* za svaki stupac, što je broj kontejnera u tom stupcu s višim prioritetom od blokirajućeg kontejnera (onog koji trenutno blokira pristup željenom). Algoritam zatim odabire stupac s najnižim _reshuffle indeksom_ za premještanje blokirajućeg kontejnera, s ciljem smanjenja budućih premještanja. 
+Ključna ideja je izračunati _reshuffle indeks_ za svaki stupac. _Reshuffle indeks_ definira se kao broj kontejnera u određenom stupcu koji imaju viši prioritet od blokirajućeg kontejnera, tj. kontejnera koji trenutno blokira pristup željenom kontejneru.
+```python
+    def initial_stacks(self, tiers, stacks):
+        all_containers = []
+        container_id = 1
+        for _ in range(stacks * tiers):
+            position = container_id
+            reshuffle_index = randint(1, 100)
+            lookahead_cost = randint(1, 10)
+            container = Container(container_id, position, reshuffle_index, lookahead_cost)
+            all_containers.append(container)
+            container_id += 1
+
+        shuffle(all_containers)
+
+        stacks_list = [[] for _ in range(stacks)]
+        for i, container in enumerate(all_containers):
+            stack_index = i % stacks
+            stacks_list[stack_index].append(container)
+
+        return stacks_list
+```
+Algoritam koristi ovaj indeks kako bi odabrao stupac s najnižim _reshuffle indeksom_ za premještanje blokirajućeg kontejnera. Odabirom stupca s _najnižim reshuffle_ indeksom minimizira vjerojatnost da će premješten kontejner ponovo blokirati pristup nekom drugom kontejneru u budućnosti.
 ```python
 def RI(stacks):
     selected_container = None
@@ -89,8 +111,8 @@ def RI(stacks):
     return selected_container
 ```
 #### *Reshuffle Index with Look-Ahead* (RIL)
-_Reshuffle Index with Look-Ahead_ (RIL) je proširenje osnovnog _Reshuffle Index_ prioritetnog pravila koja uključuje dodatni korak *gledanja unaprijed* (look-ahead) kako bi se unaprijedilo donošenje odluka pri premještanju kontejnera. Dok standardno  _Reshuffle Index_ heuristika odabire stupac za premještanje blokirajućeg kontejnera na temelju trenutnog broja kontejnera s višim prioritetom, RIL pokušava predvidjeti buduće premještaje i izbjegavati poteze koji bi kasnije mogli uzrokovati dodatna premještanja.
-RIL uzima u obzir ne samo trenutni _reshuffle indeks_, već i potencijalne posljedice premještanja na buduće poteze, što pomaže u daljnjem smanjenju ukupnog broja premještanja u cijelom procesu.
+_Reshuffle Index with Look-Ahead_ (RIL) je proširenje osnovnog _Reshuffle Index_ prioritetnog pravila koja uključuje dodatni korak *gledanja unaprijed* (look-ahead) kako bi se unaprijedilo donošenje odluka pri premještanju kontejnera. Dok standardno  _Reshuffle Index_ pravilo odabire stupac za premještanje blokirajućeg kontejnera na temelju trenutnog broja kontejnera s višim prioritetom, RIL pokušava predvidjeti buduće premještaje i izbjegavati poteze koji bi kasnije mogli uzrokovati dodatna premještanja.
+Predviđanje posljedica budućih premještanja postiže tako da prilikom izračuna _reshuffle indeksa_, ocjenjuje moguće buduće scenarije u kojima bi se premješteni kontejner mogao naći u situaciji da ponovno blokira pristup nekom drugom kontejneru. Na temelju ocjena odabire stupac za premještanje koji minimizira buduća dodatna premještanja.
 ```python
 def RIL(stacks):
     selected_container = None
