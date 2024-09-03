@@ -1,0 +1,20 @@
+{
+    "stacks": [
+      [
+        {"id": 1, "position": 1, "reshuffle_index": 10},
+        {"id": 2, "position": 2, "reshuffle_index": 20},
+        {"id": 3, "position": 3, "reshuffle_index": 30}
+      ],
+      [
+        {"id": 4, "position": 4, "reshuffle_index": 40},
+        {"id": 5, "position": 5, "reshuffle_index": 50},
+        {"id": 6, "position": 6, "reshuffle_index": 60}
+      ],
+      [
+        {"id": 7, "position": 7, "reshuffle_index": 70},
+        {"id": 8, "position": 8, "reshuffle_index": 80},
+        {"id": 9, "position": 9, "reshuffle_index": 90}
+      ]
+    ]
+  }
+  
