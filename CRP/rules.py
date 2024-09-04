@@ -22,21 +22,24 @@ def calculate_reshuffle_index(stack):
     if not stack:
         return
     for i in range(len(stack)):
-        stack[i].reshuffle_index = len(stack) - 1 - i 
+        current_container = stack[i]
+        count_higher_priority = sum(1 for container in stack if container.priority < current_container.priority)
+        current_container.reshuffle_index = count_higher_priority
 
-def calculate_lookahead_cost(stacks, container, target_stack):
-    simulated_stacks = [stack.copy() for stack in stacks]
-    current_stack = next(stack for stack in stacks if container in stack)
-    current_stack.remove(container)
+
+
+def lookahead_cost(stack, container, target_stack):
+    simulated_stack = stack.copy()
+    simulated_stack.remove(container)
     target_stack.append(container)
-    additional_cost = 0
-    for stack in simulated_stacks:
-        if stack:
-            top_container = stack[-1]
-        if top_container.position == container.position:
-                additional_cost += 1  
 
-    return additional_cost
+    max_priority = float('-inf')
+    for cont in simulated_stack:
+        if cont.priority > max_priority:
+            max_priority = cont.priority
+    
+    return max_priority    
+
 
 def RI(stacks):
     selected_container = None
@@ -53,15 +56,30 @@ def RI(stacks):
 
 def RIL(stacks):
     selected_container = None
-    min_lookahead_cost = float('inf')
+    max_reshuffle_index = float('-inf')
+    candidate_stacks = []
+
+    for stack in stacks:
+        calculate_reshuffle_index(stack)
+    
     for stack in stacks:
         if stack:
-            top_container = stack[-1]           
-            lookahead_cost = calculate_lookahead_cost(stacks, top_container, [])
-            top_container.lookahead_cost = lookahead_cost
-            if lookahead_cost < min_lookahead_cost:
-                min_lookahead_cost = lookahead_cost
+            top_container = stack[-1]
+            if top_container.reshuffle_index > max_reshuffle_index:
+                max_reshuffle_index = top_container.reshuffle_index
+                candidate_stacks = [stack]
+            elif top_container.reshuffle_index == max_reshuffle_index:
+                candidate_stacks.append(stack)
+ 
+    if len(candidate_stacks) > 1:
+        min_max_priority = float('inf')
+        for stack in candidate_stacks:
+            top_container = stack[-1]
+            cost = lookahead_cost(stack, top_container, [])
+            if cost < min_max_priority:
+                min_max_priority = cost
                 selected_container = top_container
+    else:
+        selected_container = candidate_stacks[0][-1]
     
     return selected_container
-
