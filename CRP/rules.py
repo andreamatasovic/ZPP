@@ -18,41 +18,48 @@ def TLP(stacks):
     
     return selected_container
     
-def calculate_reshuffle_index(stack):
-    if not stack:
-        return
-    for i in range(len(stack)):
-        current_container = stack[i]
-        count_higher_priority = sum(1 for container in stack if container.priority < current_container.priority)
-        current_container.reshuffle_index = count_higher_priority
-
-
-
-def lookahead_cost(stack, container, target_stack):
-    simulated_stack = stack.copy()
-    simulated_stack.remove(container)
-    target_stack.append(container)
-
-    max_priority = float('-inf')
-    for cont in simulated_stack:
-        if cont.priority > max_priority:
-            max_priority = cont.priority
-    
-    return max_priority    
-
+def calculate_reshuffle_index(stack, target_container_id):
+    reshuffle_index = 0
+    for container in stack:
+        if container.id < target_container_id:
+            reshuffle_index += 1
+    return reshuffle_index
 
 def RI(stacks):
     selected_container = None
     max_reshuffle_index = float('-inf')
+    
     for stack in stacks:
-        calculate_reshuffle_index(stack)  
         if stack:
-            top_container = stack[-1]
+            top_container = stack[-1] 
+            top_container.reshuffle_index = calculate_reshuffle_index(stack, top_container.id)
+            
             if top_container.reshuffle_index > max_reshuffle_index:
                 max_reshuffle_index = top_container.reshuffle_index
                 selected_container = top_container
+                
     return selected_container
 
+def lookahead_cost(original_stack, container, target_stack):
+
+    simulated_original_stack = original_stack.copy()
+    simulated_original_stack.remove(container)
+    simulated_target_stack = target_stack.copy()
+    simulated_target_stack.append(container)
+
+    max_reshuffle_index_original = float('-inf')
+    for cont in simulated_original_stack:
+        reshuffle_index = calculate_reshuffle_index(simulated_original_stack, cont.id)
+        if reshuffle_index > max_reshuffle_index_original:
+            max_reshuffle_index_original = reshuffle_index
+
+    max_reshuffle_index_target = float('-inf')
+    for cont in simulated_target_stack:
+        reshuffle_index = calculate_reshuffle_index(simulated_target_stack, cont.id)
+        if reshuffle_index > max_reshuffle_index_target:
+            max_reshuffle_index_target = reshuffle_index
+
+    return max(max_reshuffle_index_original, max_reshuffle_index_target)
 
 def RIL(stacks):
     selected_container = None
@@ -60,7 +67,8 @@ def RIL(stacks):
     candidate_stacks = []
 
     for stack in stacks:
-        calculate_reshuffle_index(stack)
+        if stack:
+            calculate_reshuffle_index(stack, stack[-1].id)
     
     for stack in stacks:
         if stack:
