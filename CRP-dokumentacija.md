@@ -84,7 +84,6 @@ def RI(stacks):
 #### *Reshuffle Index with Look-Ahead* (RIL)
 _Reshuffle Index with Look-Ahead_ (RIL) je proširenje osnovnog _Reshuffle Index_ prioritetnog pravila koja uključuje dodatni korak *gledanja unaprijed* (look-ahead) kako bi se unaprijedilo donošenje odluka pri premještanju kontejnera. Dok standardno  _Reshuffle Index_ pravilo odabire stupac za premještanje blokirajućeg kontejnera na temelju trenutnog broja kontejnera s višim prioritetom, RIL pokušava predvidjeti buduće premještaje i izbjegavati poteze koji bi kasnije mogli uzrokovati dodatna premještanja.
 RIL uzima u obzir ne samo trenutni _reshuffle indeks_, već i potencijalne posljedice premještanja na buduće poteze, što pomaže u daljnjem smanjenju ukupnog broja premještanja u cijelom procesu.
-_Reshuffle Index with Look-Ahead_ (RIL) je proširenje osnovnog _Reshuffle Index_ prioritetnog pravila koja uključuje dodatni korak *gledanja unaprijed* (look-ahead) kako bi se unaprijedilo donošenje odluka pri premještanju kontejnera. 
 ```python
 def calculate_lookahead_cost(stacks, container, target_stack):
     simulated_stacks = [stack.copy() for stack in stacks]
