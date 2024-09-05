@@ -62,54 +62,73 @@ def TLP(stacks):
 Ključna ideja je izračunati *reshuffle indeks* za svaki stupac, što je broj kontejnera u tom stupcu s višim prioritetom od blokirajućeg kontejnera (onog koji trenutno blokira pristup željenom). Algoritam zatim odabire stupac s najnižim _reshuffle indeksom_ za premještanje blokirajućeg kontejnera, s ciljem smanjenja budućih premještanja. 
 Ključna ideja je izračunati _reshuffle indeks_ za svaki stupac. _Reshuffle indeks_ definira se kao broj kontejnera u određenom stupcu koji imaju viši prioritet od blokirajućeg kontejnera, tj. kontejnera koji trenutno blokira pristup željenom kontejneru.
 ```python
-def calculate_reshuffle_index(stack):
-    if not stack:
-        return
-    for i in range(len(stack)):
-        stack[i].reshuffle_index = len(stack) - 1 - i 
+def calculate_reshuffle_index(stack, blocking_container_id):
+    reshuffle_index = 0
+    for container in stack:
+        if container.id < blocking_container_id:
+            reshuffle_index += 1
+    return reshuffle_index
 ```
 Algoritam koristi ovaj indeks kako bi odabrao stupac s najnižim _reshuffle indeksom_ za premještanje blokirajućeg kontejnera. Odabirom stupca s _najnižim reshuffle_ indeksom minimizira vjerojatnost da će premješten kontejner ponovo blokirati pristup nekom drugom kontejneru u budućnosti.
 ```python
 def RI(stacks):
-    selected_container = None
-    max_reshuffle_index = float('-inf')
+    min_reshuffle_index = float('inf')
+    target_stack = None
+    current_stack = None
+    blocking_container_id = None
+    min_container_id = float('inf')
+
     for stack in stacks:
-        if stack:
-            top_container = stack[-1]
-            if top_container.reshuffle_index > max_reshuffle_index:
-                max_reshuffle_index = top_container.reshuffle_index
-                selected_container = top_container
-    return selected_container
+        for container in stack:
+            if container.id < min_container_id:
+                min_container_id = container.id
+                current_stack= stack
+                blocking_container_id = current_stack[-1]
+    for stack in stacks:         
+            current_reshuffle_index = calculate_reshuffle_index(stack, blocking_container_id)
+            if current_reshuffle_index < min_reshuffle_index:
+                min_reshuffle_index = current_reshuffle_index
+                target_stack = stack
+    return target_stack
 ```
 #### *Reshuffle Index with Look-Ahead* (RIL)
 _Reshuffle Index with Look-Ahead_ (RIL) je proširenje osnovnog _Reshuffle Index_ prioritetnog pravila koja uključuje dodatni korak *gledanja unaprijed* (look-ahead) kako bi se unaprijedilo donošenje odluka pri premještanju kontejnera. Dok standardno  _Reshuffle Index_ pravilo odabire stupac za premještanje blokirajućeg kontejnera na temelju trenutnog broja kontejnera s višim prioritetom, RIL pokušava predvidjeti buduće premještaje i izbjegavati poteze koji bi kasnije mogli uzrokovati dodatna premještanja.
 RIL uzima u obzir ne samo trenutni _reshuffle indeks_, već i potencijalne posljedice premještanja na buduće poteze, što pomaže u daljnjem smanjenju ukupnog broja premještanja u cijelom procesu.
-```python
-def calculate_lookahead_cost(stacks, container, target_stack):
-    simulated_stacks = [stack.copy() for stack in stacks]
-    current_stack = next(stack for stack in stacks if container in stack)
-    current_stack.remove(container)
-    target_stack.append(container)
-    additional_cost = 0
-    for stack in simulated_stacks:
-        if stack:
-            top_container = stack[-1]
-        if top_container.position == container.position:
-                additional_cost += 1  
 
-    return additional_cost
-```
 Dok standardno  _Reshuffle Index_ pravilo odabire stupac za premještanje blokirajućeg kontejnera na temelju trenutnog broja kontejnera s višim prioritetom, RIL pokušava predvidjeti buduće premještaje i izbjegavati poteze koji bi kasnije mogli uzrokovati dodatna premještanja.
 Predviđanje posljedica budućih premještanja postiže tako da prilikom izračuna _reshuffle indeksa_, ocjenjuje moguće buduće scenarije u kojima bi se premješteni kontejner mogao naći u situaciji da ponovno blokira pristup nekom drugom kontejneru. Na temelju ocjena odabire stupac za premještanje koji minimizira buduća dodatna premještanja.
 ```python
+def min(stack):
+    min_id = float('inf')
+    for container in stack:
+        if container.id < min_id:
+            min_id = container.id
+    return min_id     
+
 def RIL(stacks):
-    selected_container = None
-    min_lookahead_cost = float('inf')
+    min_reshuffle_index = float('inf')
+    target_stack = None
+    current_stack = None
+    blocking_container_id = None
+    min_container_id = float('inf')
+    min_max_id= float('-inf')
     for stack in stacks:
-        if stack:
-            top_container = stack[-1]
-            if top_container.lookahead_cost < min_lookahead_cost:
-                min_lookahead_cost = top_container.lookahead_cost
-                selected_container = top_container
-    return selected_container
+        for container in stack:
+            if container.id < min_container_id:
+                min_container_id = container.id
+                current_stack= stack
+                blocking_container_id = current_stack[-1]
+    for stack in stacks:         
+            current_reshuffle_index = calculate_reshuffle_index(stack, blocking_container_id)
+            min_in_stack=min(stack)
+            if current_reshuffle_index < min_reshuffle_index:
+                min_reshuffle_index = current_reshuffle_index
+                target_stack = stack
+            elif current_reshuffle_index == min_reshuffle_index:
+                if min_in_stack > min_max_id:
+                    min_max_id = min_in_stack
+                    min_reshuffle_index = current_reshuffle_index
+                    target_stack = stack
+           
+    return target_stack
 ```
