@@ -40,7 +40,7 @@ Odabirom automatskog dohvaćanja otvara se sučelje u kojem korisnik može odabr
 Pritiskom na gumb _Start_, aplikacija automatski premješta kontejnere prema odabranom pravilu, ažurira prikaz i prikazuje broj premještaja. Cijeli proces premještanja kontinuirano se opisuje u statusnoj traci, pružajući korisniku ažurirane informacije o trenutnom stanju.
 ![alt text](https://github.com/andreamatasovic/ZPP/blob/main/img/5.png) <br/>
 #### *The Lowest Point* (TLP)
-Pravilo TLP za rješavanje problema premještanja kontejnera funkcionira tako što prvo analizira sve stupce u skladištu i bilježi broj kontejnera u svakom stupcu. Zatim, TLP odabire stupac s najmanjim brojem kontejnera kao odredište za premještanje novih kontejnera. Ako postoji više stupaca s istim najmanjim brojem kontejnera, nsasumično se bira na koji od tih stupaca će biti premješten kontejner. Na kraju, broj kontejnera u oba stupca se ažurira i proces se može ponoviti ako je potrebno.
+Pravilo TLP za rješavanje problema premještanja kontejnera funkcionira tako što prvo analizira sve stupce u skladištu i bilježi broj kontejnera u svakom stupcu. Zatim, TLP odabire stupac s najmanjim brojem kontejnera kao odredište za premještanje novih kontejnera. Ako postoji više stupaca s istim najmanjim brojem kontejnera, nasumično se bira na koji od tih stupaca će biti premješten kontejner. Na kraju, broj kontejnera u oba stupca se ažurira i proces se može ponoviti ako je potrebno.
 ```python
 def TLP(stacks):
     selected_containers = []
